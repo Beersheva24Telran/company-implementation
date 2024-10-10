@@ -1,5 +1,7 @@
 package telran.employees;
 
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 import telran.io.Persistable;
@@ -103,14 +105,21 @@ private class CompanyIterator implements Iterator<Employee> {
 
     @Override
     public void saveToFile(String fileName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveToFile'");
+        try (PrintWriter writer = new PrintWriter(fileName)) {
+            forEach(writer::println);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void restoreFromFile(String fileName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'restoreFromFile'");
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(fileName))) {
+            reader.lines().map(Employee::getEmployeeFromJSON).forEach(this::addEmployee);
+        } catch (FileNotFoundException e) { 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
