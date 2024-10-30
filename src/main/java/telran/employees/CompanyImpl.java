@@ -116,7 +116,7 @@ private class CompanyIterator implements Iterator<Employee> {
     public void restoreFromFile(String fileName) {
         try (BufferedReader reader = Files.newBufferedReader(Path.of(fileName))) {
             reader.lines().map(Employee::getEmployeeFromJSON).forEach(this::addEmployee);
-        } catch (FileNotFoundException e) { 
+        } catch (NoSuchFileException e) { 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
