@@ -7,6 +7,8 @@ import java.util.*;
 import telran.io.Persistable;
 
 public class CompanyImpl implements Company, Persistable{
+    //FIXME introduce synchroniztion policy with the maximal concurreny
+    //Operations of not updating should run simultaniously 
    private TreeMap<Long, Employee> employees = new TreeMap<>();
    private HashMap<String, List<Employee>> employeesDepartment = new HashMap<>();
    private TreeMap<Float, List<Manager>> managersFactor = new TreeMap<>();
