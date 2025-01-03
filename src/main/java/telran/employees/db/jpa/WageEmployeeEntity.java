@@ -4,21 +4,22 @@ import org.json.JSONObject;
 
 import telran.employees.*;
 
-
-public class SalesPersonEntity extends WageEmployeeEntity{
-    private float percent;
-    private long sales;
+public class WageEmployeeEntity extends EmployeeEntity{
+    int wage;
+    int hours;
 @Override
     protected void fromEmployeeDto(Employee empl) {
         super.fromEmployeeDto(empl);
-        percent = ((SalesPerson) empl).getPercent();
-        sales = ((SalesPerson) empl).getSales();
+        wage = ((WageEmployee) empl).getWage();
+        hours = ((WageEmployee) empl).getHours();
     }
     @Override
     protected void toJsonObject(JSONObject jsonObj) {
        super.toJsonObject(jsonObj);
-       jsonObj.put("percent", percent);
-       jsonObj.put("sales", sales);
+       jsonObj.put("wage", wage);
+       jsonObj.put("hours", hours);
 
     }
+
+
 }
