@@ -1,5 +1,6 @@
 package telran.employees.db;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -7,14 +8,32 @@ import telran.employees.*;
 
 public class CompanyDbImpl implements Company{
     private CompanyRepository repository;
-    
+    private class CompanyDbIterator implements Iterator<Employee> {
+        Iterator<Employee> iterator = new ArrayList<>(repository.getEmployees()).iterator();
+        Employee previous;
+        @Override
+        public boolean hasNext() {
+           return iterator.hasNext();
+        }
+
+        @Override
+        public Employee next() {
+           previous = iterator.next();
+           return previous;
+        }
+        @Override
+        public void remove() {
+            iterator.remove();
+            removeEmployee(previous.getId());
+        }
+    }
     public CompanyDbImpl(CompanyRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public Iterator<Employee> iterator() {
-        return repository.getEmployees().iterator();
+        return new CompanyDbIterator();
     }
 
     @Override
